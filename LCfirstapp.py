@@ -31,7 +31,7 @@ if __name__ == "__main__":
         input_variables=["information"], template= summary_template
     )
 
-    llm = ChatOpenAI(temperature=0,openai_api_key = openai_api_key)
+    llm = ChatOpenAI(temperature=0,openai_api_key = openai_api_key, model_name="gpt-3.5-turbo")
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
