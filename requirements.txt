@@ -2,3 +2,4 @@ langchain
 black
 python-dotenv
 openai
+tweepy
