@@ -3,3 +3,4 @@ black
 python-dotenv
 openai
 tweepy
+flask

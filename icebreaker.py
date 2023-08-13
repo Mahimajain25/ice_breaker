@@ -13,7 +13,7 @@ from output_parser import person_intel_parser, PersonIntel
 load_dotenv()
 openai_api_key = os.environ["OPENAI_API_KEY_"]
 
-def ice_break(name: str)->PersonIntel:
+def ice_break(name: str)-> tuple(PersonIntel,str):
     linkedin_profile_url = linkedin_lookup_agent(name = name)
     LinkedIn_data = scrape_linkedin_profile(
         linkedin_profile_url=linkedin_profile_url
@@ -46,7 +46,7 @@ def ice_break(name: str)->PersonIntel:
 
     result = chain.run(linked_information=LinkedIn_data,twitter_information=tweets)
     print(result)
-    return person_intel_parser.parse(result)
+    return person_intel_parser.parse(result), LinkedIn_data.get("profile_pic_url")
 
 
 
