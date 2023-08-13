@@ -7,15 +7,13 @@ from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agents import lookup as linkedin_lookup_agent
 from third_parties.twitter import scrape_user_tweets
 from agents.twitter_lookup_agents import lookup as twitter_lookup_agent
+from output_parser import person_intel_parser, PersonIntel
+
 
 load_dotenv()
 openai_api_key = os.environ["OPENAI_API_KEY_"]
 
-name = "Harison Chase"
-
-if __name__ == "__main__":
-    print("Hello LangChain!")
-
+def ice_break(name: str)->PersonIntel:
     linkedin_profile_url = linkedin_lookup_agent(name = name)
     LinkedIn_data = scrape_linkedin_profile(
         linkedin_profile_url=linkedin_profile_url
@@ -29,10 +27,15 @@ if __name__ == "__main__":
         2. two intersting fact about them 
         3. A topic that may interest them
         4. 2 Creative Ice breaker to open a conversation with them
+        \n{format_instruction}
     """
 
     summary_prompt_template = PromptTemplate(
-        input_variables=["linked_information","twitter_information"], template=summary_template
+        input_variables=["linked_information","twitter_information"], 
+        template=summary_template,
+        partial_variables={
+             "format_instructions": person_intel_parser.get_format_instructions()
+        }
     )
 
     llm = ChatOpenAI(
@@ -41,4 +44,13 @@ if __name__ == "__main__":
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
-    print(chain.run(linked_information=LinkedIn_data,twitter_information=tweets))
+    result = chain.run(linked_information=LinkedIn_data,twitter_information=tweets)
+    print(result)
+    return person_intel_parser.parse(result)
+
+
+
+if __name__ == "__main__":
+    print("Hello LangChain!")
+    result = ice_break(name="Harison Chase")
+    #print(result)
