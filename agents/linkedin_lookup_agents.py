@@ -9,7 +9,7 @@ from tools.tools import get_profile_url
 def lookup(name: str) -> str:
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
     template = """given the full name {name_of_person} I want you to get me a link to their LinkedIn Profile Page.
-                    Your answer should contain only URL"""
+                    Your Final answer should contain only URL"""
 
     tool_for_agent = [
         Tool(

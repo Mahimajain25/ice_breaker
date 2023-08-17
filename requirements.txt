@@ -4,3 +4,5 @@ python-dotenv
 openai
 tweepy
 flask
+typing
+google-search-results

@@ -8,7 +8,8 @@ from tools.tools import get_profile_url
 
 def lookup(name:str)->str:
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
-    template = """given the full name {name_of_person} I want you to get me a link to their twitter Profile Page, and extract from it their username.
+
+    template = """for {name_of_person} find twitter profile. I want you to get me a link to their twitter Profile Page, and extract from it their username. Agent Action Input - "{name_of_person} Twitter profile". After profile page url, extract username from profile url
        In Your Final answer only the person's username"""
     
     tools_for_agent = [
